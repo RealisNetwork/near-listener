@@ -45,6 +45,7 @@ impl Capacitor {
     }
 
     pub fn is_valid_receipt(&self, execution_outcome: &ExecutionOutcomeWithIdView) -> bool {
+        // TODO: Check if transaction has failed!
         self.allowed_ids.contains(&execution_outcome.outcome.executor_id)
     }
 

@@ -1,6 +1,8 @@
-NEAR Indexer Simple Logger Example
+Flux Capacitor
 ==================================
 
-This is an example project featuring [NEAR Indexer Framework](https://github.com/nearprotocol/nearcore/tree/master/chain/indexer). This Indexer prints out all the blocks, chunks, transactions, receipts, execution outcomes, and state changes block by block immediately once it gets finalized in the network.
+Indexer for the NEAR protocol. Can be used for any contract living on NEAR.
+
+Use the [NEAR Indexer Framework](https://github.com/nearprotocol/nearcore/tree/master/chain/indexer).
 
 Refer to the NEAR Indexer Framework README to learn how to run this example.
