@@ -1,7 +1,8 @@
 use near_indexer::near_primitives::{
     views::{
         ExecutionOutcomeWithIdView, 
-        ExecutionOutcomeView
+        ExecutionOutcomeView,
+        ExecutionStatusView
     },
 };
 use mongodb::{ Client, Database, Cursor };
@@ -45,7 +46,12 @@ impl Capacitor {
     }
 
     pub fn is_valid_receipt(&self, execution_outcome: &ExecutionOutcomeWithIdView) -> bool {
-        // TODO: Check if transaction has failed!
+        match &execution_outcome.outcome.status {
+            ExecutionStatusView::SuccessValue(_) => (),
+            ExecutionStatusView::SuccessReceiptId(_) => (),
+            _ => return false
+        }
+
         self.allowed_ids.contains(&execution_outcome.outcome.executor_id)
     }
 
