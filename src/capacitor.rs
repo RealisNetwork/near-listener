@@ -71,8 +71,6 @@ impl Capacitor {
             _ => return false
         }
 
-        println!("Checking for : {:?}", self.allowed_ids);
-
         self.allowed_ids.contains(&execution_outcome.outcome.executor_id)
     }
 
