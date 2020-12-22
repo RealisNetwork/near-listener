@@ -3,7 +3,8 @@ use clap::Clap;
 
 use tokio::sync::mpsc;
 
-use mongodb::{Client, options::ClientOptions };
+use actix_web::{web, App, HttpServer, Responder };
+use mongodb::{ Client, options::ClientOptions };
 use configs::{ init_logging, Opts, SubCommand };
 use dotenv::dotenv;
 use std::env;
@@ -30,13 +31,11 @@ pub async fn db_connect() -> Client {
     return client;
 }
 
-async fn handle_blocks_message(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
-    let database_client = db_connect().await;
-    let mut capacitor_ins = Capacitor::new(database_client, vec![]);
-
-    capacitor_ins.add_account_id("protocol.test.near".to_string()).await;
-    capacitor_ins.load().await;
-
+async fn handle_blocks_message(capacitor_ins: &mut Capacitor, mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
+    // let database_client = db_connect().await;
+    // let mut capacitor_ins = Capacitor::new(database_client, vec![]);
+    // capacitor_ins.load().await;
+    
     while let Some(block) = stream.recv().await {
         println!("⛏ Block height {:?}", block.block.header.height);
 
@@ -50,6 +49,33 @@ async fn handle_blocks_message(mut stream: mpsc::Receiver<near_indexer::Streamer
             capacitor_ins.process_outcome(outcome.execution_outcome.outcome).await;
         }
     }
+}
+
+async fn handle_post_add_account() -> impl Responder {
+    return "Hello World";
+}
+
+async fn start_http_server(capacitor_ins: &mut Capacitor) {
+    capacitor_ins.add_account_id("blah".to_string());
+    HttpServer::new(|| {
+        App::new()
+            .route("/config/add_account", web::post().to(handle_post_add_account))
+    })
+    .bind("127.0.0.1:3000").expect("Could not run http server on that port")
+    .run()
+    .await.expect("Failed to start http server");
+}
+
+async fn start_process(stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
+    let database_client = db_connect().await;
+    let mut capacitor_ins = Capacitor::new(database_client, vec![]);
+    let borrowed_capacitor = &mut capacitor_ins;
+    capacitor_ins.load().await;
+
+    capacitor_ins.add_account_id("tralala".to_string()).await;
+
+    actix::spawn(handle_blocks_message(borrowed_capacitor, stream));
+    start_http_server(borrowed_capacitor).await;
 }
 
 fn main() {
@@ -71,7 +97,10 @@ fn main() {
             };
             let indexer = near_indexer::Indexer::new(indexer_config);
             let stream = indexer.streamer();
-            actix::spawn(handle_blocks_message(stream));
+
+            actix::spawn(start_process(stream));
+
+            // actix::spawn(handle_blocks_message(stream));
             indexer.start();
         }
         SubCommand::Init(config) => near_indexer::init_configs(

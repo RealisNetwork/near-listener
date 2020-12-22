@@ -11,6 +11,7 @@ use bson::{ Bson, doc };
 use serde_json::{ Value };
 use std::vec::Vec;
 use std::convert::TryInto;
+use actix_web::{ HttpRequest, Responder};
 
 pub struct Capacitor {
     capacitor_db: Database,

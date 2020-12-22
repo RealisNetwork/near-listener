@@ -1,4 +1,4 @@
-Flux Capacitor
+⏳ Flux Capacitor
 ==================================
 
 Indexer for the NEAR protocol. Can be used for any contract living on NEAR.
@@ -7,7 +7,7 @@ We require a specific tx log encoded in json in order for Flux Capacitor to pick
 
 ```json
 {
-    "type": "TABLE_NAME"
+    "type": "TABLE_NAME",
     "params": {
         "key": "value"
     }
