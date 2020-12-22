@@ -1,4 +1,4 @@
-⏳ Flux Capacitor
+🔎 Flux Capacitor
 ==================================
 
 Indexer for the NEAR protocol. Can be used for any contract living on NEAR.
