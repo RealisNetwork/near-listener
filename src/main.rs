@@ -3,6 +3,7 @@ use clap::Clap;
 
 use tokio::sync::mpsc;
 
+use std::sync::{Arc, Mutex};
 use actix_web::{web, App, HttpServer, Responder };
 use mongodb::{ Client, options::ClientOptions };
 use configs::{ init_logging, Opts, SubCommand };
@@ -31,34 +32,45 @@ pub async fn db_connect() -> Client {
     return client;
 }
 
-async fn handle_blocks_message(capacitor_ins: &mut Capacitor, mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
-    // let database_client = db_connect().await;
-    // let mut capacitor_ins = Capacitor::new(database_client, vec![]);
-    // capacitor_ins.load().await;
+struct AppState {
+    capacitor_ins: Arc<Mutex<Capacitor>>,
+}
+
+async fn handle_blocks_message(capacitor_ins: Arc<Mutex<Capacitor>>, mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
     
     while let Some(block) = stream.recv().await {
         println!("⛏ Block height {:?}", block.block.header.height);
+        let capacitor_unwrapped = capacitor_ins.lock().unwrap();
 
         for tx_res in block.receipt_execution_outcomes {
             let (_, outcome) = tx_res;
 
-            if !capacitor_ins.is_valid_receipt(&outcome.execution_outcome) {
+            if !capacitor_unwrapped.is_valid_receipt(&outcome.execution_outcome) {
                 continue;
             }
 
-            capacitor_ins.process_outcome(outcome.execution_outcome.outcome).await;
+            capacitor_unwrapped.process_outcome(outcome.execution_outcome.outcome).await;
         }
     }
 }
 
-async fn handle_post_add_account() -> impl Responder {
+async fn handle_post_add_account(data: web::Data<AppState>) -> impl Responder {
+    let mut capacitor_ins = data.capacitor_ins.lock().unwrap();
+
+    capacitor_ins.add_account_id("TestTest".to_string()).await;
+
     return "Hello World";
 }
 
-async fn start_http_server(capacitor_ins: &mut Capacitor) {
-    capacitor_ins.add_account_id("blah".to_string());
-    HttpServer::new(|| {
+
+async fn start_http_server(capacitor_ins: Arc<Mutex<Capacitor>>) {
+    let state = web::Data::new(AppState {
+        capacitor_ins,
+    });
+
+    HttpServer::new(move || {
         App::new()
+            .app_data(state.clone())
             .route("/config/add_account", web::post().to(handle_post_add_account))
     })
     .bind("127.0.0.1:3000").expect("Could not run http server on that port")
@@ -69,13 +81,13 @@ async fn start_http_server(capacitor_ins: &mut Capacitor) {
 async fn start_process(stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
     let database_client = db_connect().await;
     let mut capacitor_ins = Capacitor::new(database_client, vec![]);
-    let borrowed_capacitor = &mut capacitor_ins;
     capacitor_ins.load().await;
 
-    capacitor_ins.add_account_id("tralala".to_string()).await;
+    let mutex_capacitor: Mutex<Capacitor> = Mutex::new(capacitor_ins);
+    let wrapped_capacitor = Arc::new(mutex_capacitor);
 
-    actix::spawn(handle_blocks_message(borrowed_capacitor, stream));
-    start_http_server(borrowed_capacitor).await;
+    actix::spawn(handle_blocks_message(wrapped_capacitor.clone(), stream));
+    actix::spawn(start_http_server(wrapped_capacitor.clone()));
 }
 
 fn main() {
