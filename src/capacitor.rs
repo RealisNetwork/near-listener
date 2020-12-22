@@ -5,6 +5,7 @@ use near_indexer::near_primitives::{
         ExecutionStatusView
     },
 };
+use tokio::stream::StreamExt;
 use mongodb::{ Client, Database, Cursor };
 use bson::{ Bson, doc, Document };
 use serde_json::{ Result, Value };
@@ -28,20 +29,38 @@ impl Capacitor {
 
     pub async fn load(&mut self) {
         let allowed_collection = self.capacitor_db.collection("allowed_account_ids");
-        let cursor = allowed_collection.find(None, None).await.unwrap();
+        let mut cursor = allowed_collection.find(None, None).await.unwrap();
 
-        println!("cursor {:?}", cursor);
+        while let Some(doc) = cursor.next().await {
+            let allowed_doc = doc.unwrap();
+            let account_id = allowed_doc.get("account_id").and_then(Bson::as_str).unwrap();
+
+            if !self.allowed_ids.contains(&account_id.to_string()) {
+                self.allowed_ids.push(account_id.to_string());
+            }
+        }
+
+        println!("📝 Listening for the following contracts: {:?}", self.allowed_ids);
     }
 
-    pub async fn add_account_id(&mut self, account_id: &String) {
+    pub async fn add_account_id(&mut self, account_id: String) {
         let allowed_collection = self.capacitor_db.collection("allowed_account_ids");
         let doc = doc! {
             "account_id": account_id.to_string(),
         };
 
-        // TODO: check if the account id already exists
+        let mut cursor = allowed_collection.find(doc.clone(), None).await.unwrap();
 
-        allowed_collection.insert_one(doc, None).await.unwrap();
+        while let Some(doc) = cursor.next().await {
+            let allowed_doc = doc.unwrap();
+            let doc_account_id = allowed_doc.get("account_id").and_then(Bson::as_str).unwrap();
+
+            if doc_account_id == account_id {
+                return ();
+            }
+        }
+
+        allowed_collection.insert_one(doc.clone(), None).await.unwrap();
         self.allowed_ids.push(account_id.to_string());
     }
 

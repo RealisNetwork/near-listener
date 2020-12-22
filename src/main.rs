@@ -26,8 +26,9 @@ pub async fn db_connect() -> Client {
 
 async fn handle_blocks_message(mut stream: mpsc::Receiver<near_indexer::StreamerMessage>) {
     let database_client = db_connect().await;
-    let mut capacitor_ins = Capacitor::new(database_client, vec!["protocol.test.near".to_string()]);
+    let mut capacitor_ins = Capacitor::new(database_client, vec![]);
 
+    capacitor_ins.add_account_id("protocol.test.near".to_string()).await;
     capacitor_ins.load().await;
 
     while let Some(block) = stream.recv().await {
