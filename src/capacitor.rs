@@ -6,9 +6,9 @@ use near_indexer::near_primitives::{
     },
 };
 use tokio::stream::StreamExt;
-use mongodb::{ Client, Database, Cursor };
-use bson::{ Bson, doc, Document };
-use serde_json::{ Result, Value };
+use mongodb::{ Client, Database };
+use bson::{ Bson, doc };
+use serde_json::{ Value };
 use std::vec::Vec;
 use std::convert::TryInto;
 
@@ -75,6 +75,7 @@ impl Capacitor {
     }
 
     pub async fn process_outcome(&self, outcome: ExecutionOutcomeView) {
+        println!("🤖 Processing logs for {}", &outcome.executor_id);
         let normalized_database_name = outcome.executor_id.replace(".", "_");
         let database = self.database_client.database(&normalized_database_name);
 

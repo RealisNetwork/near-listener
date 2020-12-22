@@ -14,6 +14,8 @@ We require a specific tx log encoded in json in order for Flux Capacitor to pick
 }
 ```
 
+In order to run copy the `.env.example` to `.env` and run `docker-compose up`
+
 Uses the [NEAR Indexer Framework](https://github.com/nearprotocol/nearcore/tree/master/chain/indexer).
 
 Refer to the NEAR Indexer Framework README to learn how to run this example.
