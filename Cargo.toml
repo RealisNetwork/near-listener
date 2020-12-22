@@ -24,3 +24,4 @@ near-store = { git = "https://github.com/nearprotocol/nearcore", rev="60e3a5725d
 near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="60e3a5725db06599df46a491ba9acffd3d63b315" }
 neard = { git = "https://github.com/nearprotocol/nearcore", rev="60e3a5725db06599df46a491ba9acffd3d63b315" }
 near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="60e3a5725db06599df46a491ba9acffd3d63b315" }
+qstring = "0.7.2"
