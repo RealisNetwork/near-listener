@@ -11,6 +11,7 @@ use bson::{ Bson, doc };
 use serde_json::{ Value };
 use std::vec::Vec;
 use std::convert::TryInto;
+use chrono::{ Utc };
 
 pub struct Capacitor {
     capacitor_db: Database,
@@ -88,8 +89,10 @@ impl Capacitor {
             let parsed_params: Value = serde_json::from_str(&stringified_params).unwrap();
 
             let data: Bson = parsed_params.try_into().unwrap();
-            let doc = bson::to_document(&data).unwrap();
-
+            let mut doc = bson::to_document(&data).unwrap();
+            let creation_date_time = Utc::now();
+            
+            doc.insert("cap_creation_date", creation_date_time);
             collection.insert_one(doc, None).await.unwrap_or_else(|_| panic!("🛑 Database could not insert document"));
         }
     }
