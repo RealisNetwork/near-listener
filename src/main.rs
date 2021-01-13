@@ -47,6 +47,7 @@ fn main() {
     match opts.subcmd {
         SubCommand::Run => {
             let indexer_config = near_indexer::IndexerConfig {
+                await_for_node_synced: near_indexer::AwaitForNodeSyncedEnum::WaitForFullSync,
                 home_dir,
                 sync_mode: near_indexer::SyncModeEnum::FromInterruption,
             };
