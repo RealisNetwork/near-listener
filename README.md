@@ -8,6 +8,8 @@ We require a specific tx log encoded in json in order for Flux Capacitor to pick
 ```json
 {
     "type": "TABLE_NAME",
+    "cap_id": "ID_HERE",
+    "action": "update or write"
     "params": {
         "key": "value"
     }
