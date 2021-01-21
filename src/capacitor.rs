@@ -99,8 +99,11 @@ impl Capacitor {
 
             if action_type == "update" {
                 let options = UpdateOptions::builder().upsert(true).build();
+                let update_doc = doc! {
+                    "$set": data,
+                };
 
-                collection.update_one(doc!{ "cap_id": cap_id }, doc, options)
+                collection.update_one(doc!{ "cap_id": cap_id }, update_doc, options)
                     .await
                     .unwrap_or_else(|_| panic!("🛑 Database could not insert document"));
             } else {
