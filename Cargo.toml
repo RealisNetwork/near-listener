@@ -5,7 +5,7 @@ authors = ["Near Inc <hello@nearprotocol.com>"]
 edition = "2018"
 
 [dependencies]
-actix = "0.9"
+actix = "0.11.0-beta.1"
 actix-web = "3"
 bson = "1.1.0"
 clap = "3.0.0-beta.1"
@@ -19,9 +19,9 @@ diesel = { version = "1.4.5", features = ["chrono", "postgres", "numeric", "serd
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "1.1.1"
-near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="e3cd9fc64df37fbbbb7c44ff27a2ee615356b76c" }
-near-store = { git = "https://github.com/nearprotocol/nearcore", rev="e3cd9fc64df37fbbbb7c44ff27a2ee615356b76c" }
-near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="e3cd9fc64df37fbbbb7c44ff27a2ee615356b76c" }
-neard = { git = "https://github.com/nearprotocol/nearcore", rev="e3cd9fc64df37fbbbb7c44ff27a2ee615356b76c" }
-near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="e3cd9fc64df37fbbbb7c44ff27a2ee615356b76c" }
+near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
+near-store = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
+near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
+neard = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
+near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
 qstring = "0.7.2"
