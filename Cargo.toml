@@ -18,7 +18,7 @@ tokio-diesel = "0.3.0"
 diesel = { version = "1.4.5", features = ["chrono", "postgres", "numeric", "serde_json"] }
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
-mongodb = "1.1.1"
+mongodb = "2.0.0-alpha"
 near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
 near-store = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
 near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="f31cfb954bdd81885bc789bfa406035717db5ab5" }
