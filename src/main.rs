@@ -56,7 +56,7 @@ fn main() {
             .run(move || {
                 let indexer = near_indexer::Indexer::new(indexer_config);
                 let stream = indexer.streamer();
-                actix::spawn(listen_blocks(stream));
+                actix::spawn(start_process(stream));
             })
             .unwrap();
         }
