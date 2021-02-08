@@ -5,7 +5,7 @@ use near_indexer::near_primitives::{
         ExecutionStatusView
     },
 };
-use tokio::stream::StreamExt;
+use tokio_stream::StreamExt;
 use mongodb::{ Client, Database, options::{ UpdateOptions } };
 use bson::{ Bson, doc };
 use serde_json::{ Value };

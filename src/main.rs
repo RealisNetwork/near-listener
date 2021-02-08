@@ -49,6 +49,7 @@ fn main() {
             let indexer_config = near_indexer::IndexerConfig {
                 home_dir,
                 sync_mode: near_indexer::SyncModeEnum::FromInterruption,
+                await_for_node_synced: near_indexer::AwaitForNodeSyncedEnum::WaitForFullSync
             };
             actix::System::builder()
             .stop_on_panic(true)
@@ -68,7 +69,7 @@ fn main() {
             config.fast,
             config.genesis.as_ref().map(AsRef::as_ref),
             config.download,
-            config.download_genesis_url.as_ref().map(AsRef::as_ref),
+            config.download_genesis_url.as_ref().map(AsRef::as_ref)
         ),
     }
 }
