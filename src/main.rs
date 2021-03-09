@@ -47,18 +47,15 @@ fn main() {
     match opts.subcmd {
         SubCommand::Run => {
             let indexer_config = near_indexer::IndexerConfig {
-                await_for_node_synced: near_indexer::AwaitForNodeSyncedEnum::WaitForFullSync,
                 home_dir,
                 sync_mode: near_indexer::SyncModeEnum::FromInterruption,
+                await_for_node_synced: near_indexer::AwaitForNodeSyncedEnum::WaitForFullSync
             };
-            actix::System::builder()
-            .stop_on_panic(true)
-            .run(move || {
+            actix::System::new().block_on(async move {
                 let indexer = near_indexer::Indexer::new(indexer_config);
                 let stream = indexer.streamer();
                 actix::spawn(start_process(stream));
-            })
-            .unwrap();
+            });
         }
         SubCommand::Init(config) => near_indexer::init_configs(
             &home_dir,
@@ -69,7 +66,7 @@ fn main() {
             config.fast,
             config.genesis.as_ref().map(AsRef::as_ref),
             config.download,
-            config.download_genesis_url.as_ref().map(AsRef::as_ref),
+            config.download_genesis_url.as_ref().map(AsRef::as_ref)
         ),
     }
 }
