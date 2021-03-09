@@ -5,10 +5,11 @@ authors = ["Near Inc <hello@nearprotocol.com>"]
 edition = "2018"
 
 [dependencies]
-actix = "=0.11.0-beta.3"
+actix = "=0.11.0-beta.2"
 actix-web = "=4.0.0-beta.3"
 actix-http = "=3.0.0-beta.3"
 actix-tls = "=3.0.0-beta.3"
+actix_derive = "=0.6.0-beta.1"
 funty = "=1.1.0"
 bson = "1.1.0"
 clap = "3.0.0-beta.1"
