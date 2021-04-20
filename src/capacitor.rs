@@ -81,8 +81,14 @@ impl Capacitor {
         let database = self.database_client.database(&normalized_database_name);
 
         for log in outcome.logs {
-            let logs_parse_res: Option<Value> = serde_json::from_str(log.as_str()).unwrap();
-            if logs_parse_res.is_some() {
+            let logs_parse = serde_json::from_str(log.as_str());
+            if logs_parse.is_err() {
+                println!("Skipping faulty log: {}", log.as_str());
+                continue;
+            }
+
+            let logs_parse_value: Option<Value> = logs_parse.unwrap();
+            if logs_parse_value.is_some() {
                 let parsed_logs: Value = serde_json::from_str(log.as_str()).unwrap();
                 let log_type = &parsed_logs["type"].as_str().unwrap().to_string();
                 let cap_id = &parsed_logs["cap_id"].as_str().unwrap_or("None").to_string();
