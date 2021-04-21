@@ -2,12 +2,14 @@
 use std::sync::{ Arc, Mutex };
 use crate::Capacitor;
 use actix_web::{ web, App, HttpServer, HttpRequest, HttpResponse };
+use crate::websocket::{ handle_get_ws };
 use std::env;
 use qstring::{ QString };
 
 struct AppState {
     capacitor_ins: Arc<Mutex<Capacitor>>,
 }
+
 
 async fn handle_post_add_account(data: web::Data<AppState>, req: HttpRequest) -> HttpResponse {
     let api_token = env::var("API_TOKEN").expect("API_TOKEN is required to be defined in the .env file");
@@ -32,6 +34,8 @@ async fn handle_post_add_account(data: web::Data<AppState>, req: HttpRequest) ->
     return HttpResponse::Ok().body(format!("Account '{}' was added to the database", &req_account_id));
 }
 
+
+
 pub async fn start_http_server(capacitor_ins: Arc<Mutex<Capacitor>>) {
     let state = web::Data::new(AppState {
         capacitor_ins,
@@ -41,8 +45,10 @@ pub async fn start_http_server(capacitor_ins: Arc<Mutex<Capacitor>>) {
         App::new()
             .app_data(state.clone())
             .route("/config/add_account", web::get().to(handle_post_add_account))
+            .route("/ws/", web::get().to(handle_get_ws))
     })
     .bind("127.0.0.1:3000").expect("Could not run http server on that port")
     .run()
-    .await.expect("Failed to start http server");
+    .await
+    .expect("Failed to start http server");
 }

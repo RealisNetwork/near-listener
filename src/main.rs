@@ -13,6 +13,7 @@ mod capacitor;
 mod http_server;
 mod indexer;
 mod database;
+mod websocket;
 
 use capacitor::Capacitor;
 use http_server::{ start_http_server };

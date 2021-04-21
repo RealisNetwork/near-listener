@@ -22,6 +22,7 @@ tracing-subscriber = "0.2.4"
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "2.0.0-alpha"
+actix-web-actors = "3.0.0"
 near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="69eddab7a0d59fd255b71bd6362787f84457c483" }
 near-store = { git = "https://github.com/nearprotocol/nearcore", rev="69eddab7a0d59fd255b71bd6362787f84457c483" }
 near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="69eddab7a0d59fd255b71bd6362787f84457c483" }
