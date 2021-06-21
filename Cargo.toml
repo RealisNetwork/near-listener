@@ -22,10 +22,10 @@ tracing-subscriber = "0.2.4"
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "2.0.0-alpha"
-near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
-near-store = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
-near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
-neard = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
-near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
-near-crypto = { git = "https://github.com/nearprotocol/nearcore", rev="379f87e5dd5d3c1e798baf164068e0a0517fdcfc" }
+near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
+near-store = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
+near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
+neard = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
+near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
+near-crypto = { git = "https://github.com/nearprotocol/nearcore", rev="7e24d5d758be41ff12528964ebdcad12e32b990d" }
 qstring = "0.7.2"
