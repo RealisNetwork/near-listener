@@ -6,8 +6,8 @@ use near_indexer::near_primitives::{
     },
 };
 use tokio_stream::StreamExt;
-use mongodb::{ Client, Database, options::{ UpdateOptions } };
-use bson::{ Bson, doc };
+use mongodb::{ Client, Database, Collection, options::{ UpdateOptions } };
+use bson::{ Bson, doc, document::Document };
 use serde_json::{ Value };
 use std::vec::Vec;
 use std::convert::TryInto;
@@ -29,7 +29,7 @@ impl Capacitor {
     }
 
     pub async fn load(&mut self) {
-        let allowed_collection = self.capacitor_db.collection("allowed_account_ids");
+        let allowed_collection: Collection<Document> = self.capacitor_db.collection("allowed_account_ids");
         let mut cursor = allowed_collection.find(None, None).await.unwrap();
 
         while let Some(doc) = cursor.next().await {
@@ -45,7 +45,7 @@ impl Capacitor {
     }
 
     pub async fn add_account_id(&mut self, account_id: String) {
-        let allowed_collection = self.capacitor_db.collection("allowed_account_ids");
+        let allowed_collection: Collection<Document> = self.capacitor_db.collection("allowed_account_ids");
         let doc = doc! {
             "account_id": account_id.to_string(),
         };
