@@ -23,9 +23,5 @@ bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "2.0.0-alpha"
 near-indexer = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
-near-store = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
-near-chain = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
 neard = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
-near-chain-configs = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
-near-crypto = { git = "https://github.com/nearprotocol/nearcore", rev="9655ff694e8c38277b184ca42dc3478bbd4fd86a" }
 qstring = "0.7.2"
