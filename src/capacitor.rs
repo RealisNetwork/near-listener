@@ -72,12 +72,12 @@ impl Capacitor {
             _ => return false
         }
 
-        self.allowed_ids.contains(&execution_outcome.outcome.executor_id)
+        self.allowed_ids.contains(&execution_outcome.outcome.executor_id.to_string())
     }
 
     pub async fn process_outcome(&self, outcome: ExecutionOutcomeView) {
         println!("🤖 Processing logs for {}", &outcome.executor_id);
-        let normalized_database_name = outcome.executor_id.replace(".", "_");
+        let normalized_database_name = outcome.executor_id.to_string().replace(".", "_");
         let database = self.database_client.database(&normalized_database_name);
 
         for log in outcome.logs {

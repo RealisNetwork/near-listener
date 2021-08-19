@@ -44,10 +44,20 @@ pub(crate) struct InitConfigArgs {
     pub genesis: Option<String>,
     #[clap(short, long)]
     /// Download the verified NEAR genesis file automatically.
-    pub download: bool,
+    #[clap(long)]
+    pub download_genesis: bool,
+    /// Download the verified NEAR config file automatically.
+    #[clap(long)]
+    pub download_config: bool,
+    #[clap(long)]
+    pub download_config_url: Option<String>,
     /// Specify a custom download URL for the genesis-file.
     #[clap(long)]
     pub download_genesis_url: Option<String>,
+    /// Initialize boots nodes in <node_key>@<ip_addr> format seperated by commas
+    /// to bootstrap the network and store them in config.json
+    #[clap(long)]
+    pub boot_nodes: Option<String>,
 }
 
 pub(crate) fn init_logging() {
