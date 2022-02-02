@@ -1,6 +1,5 @@
 use actix;
-use clap::Clap;
-
+use clap::Parser;
 use tokio::sync::mpsc;
 use std::convert::TryFrom;
 use std::sync::{ Arc, Mutex };
@@ -74,6 +73,6 @@ fn main() {
             config.download_config_url.as_ref().map(AsRef::as_ref),
             config.boot_nodes.as_ref().map(AsRef::as_ref),
             None,
-        ),
+        ).expect("Failed to initiate configs")
     }
 }

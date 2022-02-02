@@ -5,15 +5,15 @@ authors = ["Near Inc <hello@nearprotocol.com>"]
 edition = "2018"
 
 [dependencies]
-actix = "=0.11.0-beta.2"
-actix-web = "=4.0.0-beta.6"
-actix-http = "=3.0.0-beta.6"
-actix-tls = "=3.0.0-beta.5"
-actix_derive = "=0.6.0-beta.1"
-funty = "=1.1.0"
+actix = "0.11.0-beta.2"
+actix-web = "4.0.0-beta.6"
+actix-http = "3.0.0-beta.6"
+actix-tls = "3.0.0-beta.5"
+actix_derive = "0.6.0-beta.1"
+funty = "1.1.0"
 bson = "1.1.0"
 borsh = "0.7.1"
-clap = "3.0.0-beta.1"
+clap = { version = "3.0.0-beta.5", features = ["color", "derive", "env"] }
 dotenv = "0.15.0"
 openssl-probe = { version = "0.1.2" }
 serde_json = "1.0.55"
@@ -23,6 +23,5 @@ tracing-subscriber = "0.2.4"
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "2.0.0-alpha"
-near-indexer = { git = "https://github.com/near/nearcore", rev="4807978dd6a952a25b2f304fb15433ea9480b39d" }
-neard = { git = "https://github.com/near/nearcore", rev="4807978dd6a952a25b2f304fb15433ea9480b39d" }
+near-indexer = { git = "https://github.com/near/nearcore", rev="6c5199f3b8b72ea8065e25cdd0bd3661ef95f878" }
 qstring = "0.7.2"

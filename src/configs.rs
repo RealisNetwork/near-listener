@@ -1,20 +1,29 @@
-use clap::Clap;
-
+use clap::Parser;
 use tracing_subscriber::EnvFilter;
 
 /// NEAR Indexer Example
 /// Watches for stream of blocks from the chain
-#[derive(Clap, Debug)]
-#[clap(version = "0.1", author = "Near Inc. <hello@nearprotocol.com>")]
+#[derive(Parser, Debug)]
+#[clap(
+    version,
+    author,
+    about,
+    setting(clap::AppSettings::DisableHelpSubcommand),
+    setting(clap::AppSettings::PropagateVersion),
+    setting(clap::AppSettings::NextLineHelp)
+)]
 pub(crate) struct Opts {
     /// Sets a custom config dir. Defaults to ~/.near/
     #[clap(short, long)]
     pub home_dir: Option<std::path::PathBuf>,
+    /// Enabled Indexer for Explorer debug level of logs
+    #[clap(long)]
+    pub debug: bool,
     #[clap(subcommand)]
     pub subcmd: SubCommand,
 }
 
-#[derive(Clap, Debug)]
+#[derive(Parser, Debug)]
 pub(crate) enum SubCommand {
     /// Run NEAR Indexer Example. Start observe the network
     Run,
@@ -22,7 +31,8 @@ pub(crate) enum SubCommand {
     Init(InitConfigArgs),
 }
 
-#[derive(Clap, Debug)]
+
+#[derive(Parser, Debug)]
 pub(crate) struct InitConfigArgs {
     /// chain/network id (localnet, testnet, devnet, betanet)
     #[clap(short, long)]
@@ -43,17 +53,21 @@ pub(crate) struct InitConfigArgs {
     #[clap(short, long)]
     pub genesis: Option<String>,
     #[clap(short, long)]
-    /// Download the verified NEAR genesis file automatically.
-    #[clap(long)]
-    pub download_genesis: bool,
     /// Download the verified NEAR config file automatically.
     #[clap(long)]
     pub download_config: bool,
     #[clap(long)]
     pub download_config_url: Option<String>,
+    /// Download the verified NEAR genesis file automatically.
+    #[clap(long)]
+    pub download_genesis: bool,
     /// Specify a custom download URL for the genesis-file.
     #[clap(long)]
     pub download_genesis_url: Option<String>,
+    /// Customize max_gas_burnt_view runtime limit.  If not specified, value
+    /// from genesis configuration will be taken.
+    #[clap(long)]
+    pub max_gas_burnt_view: Option<u64>,
     /// Initialize boots nodes in <node_key>@<ip_addr> format seperated by commas
     /// to bootstrap the network and store them in config.json
     #[clap(long)]
