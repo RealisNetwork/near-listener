@@ -51,7 +51,7 @@ fn main() {
             };
             let sys = actix::System::new();
             sys.block_on(async move {
-                let indexer = near_indexer::Indexer::new(indexer_config);
+                let indexer = near_indexer::Indexer::new(indexer_config).expect("Failed to initiate Indexer");
                 let stream = indexer.streamer();
                 actix::spawn(start_process(stream));
             });

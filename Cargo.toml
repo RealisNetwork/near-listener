@@ -23,5 +23,5 @@ tracing-subscriber = "0.2.4"
 bigdecimal = "0.1.2"
 chrono = "0.4.13"
 mongodb = "2.0.0-alpha"
-near-indexer = { git = "https://github.com/near/nearcore", rev="d8a593d4f09339ced40aafbd9ecec8b39ea48d41" }
+near-indexer = { git = "https://github.com/near/nearcore", rev="539f254f793a3324a29e6e97e3b804b9fa4f27a2" }
 qstring = "0.7.2"
